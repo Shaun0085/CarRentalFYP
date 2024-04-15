@@ -1052,7 +1052,22 @@ button:hover {
         align-items: flex-start;
     }
 }
-@media screen and (min-width: 400px) {
+@media screen and (max-width: 1100px) {
+    .booking-car-details-container {
+        margin-top: 400px;
+    }
+}
+@media screen and (max-width: 850px) {
+    .booking-car-details-container {
+        margin-top: 350px;
+    }
+}
+@media screen and (max-width: 700px) {
+    .booking-car-details-container {
+        margin-top: 250px;
+    }
+}
+@media screen and (max-width: 500px) {
     .booking-car-details-container {
         margin-top: 150px;
     }

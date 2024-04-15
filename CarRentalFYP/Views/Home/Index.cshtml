@@ -43,7 +43,7 @@
             <div class="form-row">
                 <div class="form-column">
                     <label for="pickup-date">Pickup Date:</label>
-                    <input type="date" id="inputPickupDate" name="pickup-date" required>
+                    <input type="date" id="pickup-date" name="pickup-date" required>
                 </div>
                 <div class="form-column">
                     <label for="pickup-location">Pickup Location:</label>
@@ -58,7 +58,7 @@
             <div class="form-row">
                 <div class="form-column">
                     <label for="dropoff-date">Dropoff Date:</label>
-                    <input type="date" id="inputDropoffDate" name="dropoff-date" required>
+                    <input type="date" id="dropoff-date" name="dropoff-date" required>
                 </div>
                 <div class="form-column">
                     <label for="dropoff-location">Dropoff Location:</label>
@@ -141,20 +141,26 @@
     <!-- Script -->
     <!-- Disable Previous Date -->
     <script>
-        $(function(){
+        $(function () {
             var dtToday = new Date();
-
             var month = dtToday.getMonth() + 1;
             var day = dtToday.getDate();
             var year = dtToday.getFullYear();
-            if(month < 10)
+
+            if (month < 10)
                 month = '0' + month.toString();
-            if(day < 10)
+            if (day < 10)
                 day = '0' + day.toString();
 
             var maxDate = year + '-' + month + '-' + day;
-            $('#inputPickupDate').attr('min', maxDate);
-            $('#inputDropoffDate').attr('min', maxDate);
+            $('#pickup-date').attr('min', maxDate);
+            $('#dropoff-date').attr('min', maxDate);
+
+            // Add change event listener to pick-up date input
+            $('#pickup-date').change(function () {
+                var minPickupDate = $(this).val();
+                $('#dropoff-date').attr('min', minPickupDate);
+            });
         });
     </script>
 </body>

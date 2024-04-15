@@ -158,10 +158,10 @@
     <script>
         $(function () {
             var dtToday = new Date();
-
             var month = dtToday.getMonth() + 1;
             var day = dtToday.getDate();
             var year = dtToday.getFullYear();
+
             if (month < 10)
                 month = '0' + month.toString();
             if (day < 10)
@@ -170,8 +170,15 @@
             var maxDate = year + '-' + month + '-' + day;
             $('#pickup-date').attr('min', maxDate);
             $('#dropoff-date').attr('min', maxDate);
+
+            // Add change event listener to pick-up date input
+            $('#pickup-date').change(function () {
+                var minPickupDate = $(this).val();
+                $('#dropoff-date').attr('min', minPickupDate);
+            });
         });
     </script>
+    <!-- Pass Form to Checkout Page -->
     <script>
         function submitForm() {
             // Serialize the form data
