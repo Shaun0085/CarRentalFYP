@@ -1,0 +1,161 @@
+﻿@model IEnumerable<CarRentalFYP.Models.Vehicle>
+@{
+    ViewBag.Page = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <!--Hero Image-->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/Home/HeroBigPic.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>KUCHING CAR RENTAL</h1>
+                <p>Cars at Reasonable Prices and Good Service</p>
+            </div>
+            <div class="hero-image__container">
+                <img class="hero-image__img" src="~/Images/Home/HeroPictureTwo.png">
+            </div>
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <!-- Booking Section -->
+    <section class="book-section">
+        <h1>Book With Us</h1>
+        <h2>Find The Car That Suits Your Needs</h2>
+        <form class="book-section-container" action="@Url.Action("CarList", "Home")" method="get">
+            <div class="form-row">
+                <div class="form-column-vehicle-type">
+                    <label for="car-selection">Car Variant:</label>
+                    <select id="car-selection" name="category" required>
+                        <option value="">All</option>
+                        <option value="compact">Compact</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="mpv">MPV</option>
+                        <option value="4x4">4x4</option>
+                        <option value="van">Van</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="pickup-date">Pickup Date:</label>
+                    <input type="date" id="inputPickupDate" name="pickup-date" required>
+                </div>
+                <div class="form-column">
+                    <label for="pickup-location">Pickup Location:</label>
+                    <select id="pickup-location" name="pickup-location" required>
+                        <option hidden value="">Select a Location</option>
+                        <option value="airport">Airport</option>
+                        <option value="busstation">Kuching Sentral Bus Station</option>
+                        <option value="hotel">Hotel in Kuching (RM15)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="dropoff-date">Dropoff Date:</label>
+                    <input type="date" id="inputDropoffDate" name="dropoff-date" required>
+                </div>
+                <div class="form-column">
+                    <label for="dropoff-location">Dropoff Location:</label>
+                    <select id="dropoff-location" name="dropoff-location" required>
+                        <option hidden value="">Select a Location</option>
+                        <option value="airport">Airport</option>
+                        <option value="busstation">Kuching Sentral Bus Station</option>
+                        <option value="hotel">Hotel in Kuching (RM15)</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+    <!-- Steps to Make a Booking Section -->
+    <section class="steps-section">
+        <h1>Steps to Make a Booking</h1>
+        <h2>Only a Few Clicks Away</h2>
+        <div class="steps-images">
+            <img src="~/Images/Home/BookingStep1.png">
+            <img src="~/Images/Home/2.png">
+            <img src="~/Images/Home/3.png">
+            <img src="~/Images/Home/4.png">
+        </div>
+    </section>
+    <!-- Vehichle Card Sliding Section -->
+    <section class="vehicle-card-section">
+        <h1>Check Out Our Fleet</h1>
+        <h2>Cars of Different Sizes and Specs</h2>
+        <div class="slide-container swiper">
+            <div class="slide-content">
+                <div class="card-wrapper swiper-wrapper">
+                    <!-- All Cards -->
+                    @foreach (var vehicle in Model)
+                    {
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+                                <div class="card-image">
+                                    <img src="data:image;base64,@Convert.ToBase64String(vehicle.Image)" alt="@vehicle.Name" class="card-img">
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <h2 class="name">@vehicle.Name</h2>
+                                <h3 class="category">Category: @vehicle.VehicleCategory.Name</h3>
+                                <table style="width: 240px;">
+                                    <tr>
+                                        <td style="width: 120px;"><p class="description">Price: RM @vehicle.Price</p></td>
+                                        <td style="width: 120px;"><p class="description">Deposit: RM @vehicle.Deposit</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 120px;"><p class="description">Year: @vehicle.Year</p></td>
+                                        <td style="width: 120px;"><p class="description">Engine: @vehicle.EngineCapacity CC</p></td>
+                                    </tr>
+                                </table>
+                                <a href="@Url.Action("Booking", "Home", new { vehicleId = vehicle.VehicleId })" class="book-now-button">Book Now</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="swiper-button-next swiper-navBtn"></div>
+            <div class="swiper-button-prev swiper-navBtn"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <!-- Payment Accepted Section -->
+    <section class="payment-section">
+        <h1>Payments Accepted</h1>
+        <h3>We Accept Online Payments And In-Person!</h3>
+        <div class="payment-images">
+            <img src="~/Images/Home/Mastercard.png">
+            <img src="~/Images/Home/may_bank_logo.png">
+            <img src="~/Images/Home/public_bank_logo.png">
+            <img src="~/Images/Home/Unionpay.png">
+            <img src="~/Images/Home/Visa.png">
+        </div>
+    </section>
+
+    <!-- Script -->
+    <!-- Disable Previous Date -->
+    <script>
+        $(function(){
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if(month < 10)
+                month = '0' + month.toString();
+            if(day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+            $('#inputPickupDate').attr('min', maxDate);
+            $('#inputDropoffDate').attr('min', maxDate);
+        });
+    </script>
+</body>
+</html>

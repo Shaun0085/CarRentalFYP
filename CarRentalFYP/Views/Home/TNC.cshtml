@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Page = "TNC";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    </style>
+</head>
+<body>
+    <!-- Hero Image -->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/TNC/HeroBigImg.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>TERMS AND CONDITIONS</h1>
+            </div>
+            <div class="hero-image__container">
+                <img class="hero-image__img" src="~/Images/TNC/HeroImgTwo.png">
+            </div>
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <div class="tnc-flex-wrapper">
+        <div class="tnc-flex-container">
+            <div class="row">
+                <div class="column">
+                    <p>
+                        By renting a vehicle from our company, you agree to comply with and be bound 
+                        by all the terms and conditions outlined herein. These terms and conditions 
+                        govern your rental agreement with us; by renting a vehicle, you accept these 
+                        terms and conditions in full. If you disagree with any part of these terms 
+                        and conditions, you must not proceed with the rental. It is important to 
+                        read all terms and conditions carefully to ensure full understanding and 
+                        compliance. Failure to adhere to these terms and conditions may result 
+                        in consequences, including but not limited to the termination of your 
+                        rental agreement or legal action. If you have any questions regarding 
+                        these terms and conditions, please contact us for clarification.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <ol>
+                        <li class="question" onclick="showAnswerFuntion('1')">
+                            DOCUMENTS REQUIRED
+                            <div class="answer" id="myDIV1" style="display:none">
+                                <ul>
+                                    <li>NRIC / Passport</li>
+                                    <li>Driving License</li>
+                                    <li>Flight Itinerary</li>
+                                    <li>Age from 20- 65</li>
+                                    <li>Show us the same original documents when you pick up the car</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('2')">
+                            CAR PAYMENT
+                            <div class="answer" id="myDIV2" style="display:none">Kindly make FULL PAYMENT upon pick up the car, Cash, Credit Card and Online Bank Transfer acceptable.</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('3')">
+                            CAR RENTAL USAGE TIME
+                            <div class="answer" id="myDIV3" style="display:none">
+                                Car rental usage time is less than 24 hours still be charged for the full day rate and additional rent at daily rate.
+                                Your total rental rate is calculated based on the information provided at time of reservation. Once confirmation and detail provided, NO CANCELLATION after booking, Booking Fee
+                                15% from total rental will be forfeited.
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('4')">
+                            DAMAGE / ACCIDENT
+                            <div class="answer" id="myDIV4" style="display:none">
+                                <ul>
+                                    <li>NO DRUGS OR ALCOHOL</li>
+                                    <li>Obey the driving law</li>
+                                    <li>No Smoking</li>
+                                    <li>No Durians (except packed)</li>
+                                    <li>No Speeding (speeding in Kuching town area 70km/h , Kuching highway 90km/h. )</li>
+                                    <li>No parking at restricted areas</li>
+                                    <li>No spills</li>
+                                    <li>Eat or drink with care</li>
+                                    <li>No pet</li>
+                                    <li>keep personal items at your own risk.</li>
+                                    <li>The hirer are responsible for all parking fees or Traffic/JPJ/MBKS /PDRM fines/compound incurred during the rental period.</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('5')">
+                            DRIVING RESTRICTIONS
+                            <div class="answer" id="myDIV5" style="display:none">
+                                The use of car rental is strictly restricted within Kuching town (EXCEPT Puncak Borneo Highland),
+                                Kota Samarahan, Serian (until Serian Town). Out of these mentioned areas will be imposed a penalty
+                                of RM500 unless obtaining prior permission. NOT ALLOWED drive to outside Malaysia e.g Indonesia.<br>
+                                A non-negotiable charges of RM500 will be imposed if do not notify us or get prior permission for outstation outside Kuching from us.
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('6')">
+                            EXTENSION
+                            <div class="answer" id="myDIV6" style="display:none">
+                                Do inform 1 day early to get approval for extension of rental. Any extension will be charged
+                                accordingly. For extend hour from Rm10-Rm100/hour based on car model. After 5 hour count as 1 day.<br>
+                                – no rebate or refund for early return
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('7')">
+                            CAR DELIVERY
+                            <div class="answer" id="myDIV7" style="display:none">
+                                Free delivery & drop off at Kuching Airport / Kuching Sentral (bus station). Pick up / drop off will be
+                                charges for other locations, rate from rm15-50/way. Delivery charges may vary by location and/or based on real-time traffic conditions.
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('8')">
+                            REFUNDABLE SECURITY DEPOSIT
+                            <div class="answer" id="myDIV8" style="display:none">
+                                <ul>
+                                    <li>compact RM200</li>
+                                    <li>sedan RM200-500</li>
+                                    <li>mpv, suv, 4×4, van RM200-1000</li>
+                                </ul>
+                                Refund of Security Deposit will be make upon car return in good condition and clean or after deducting any charges, penalty, police summon and etc.
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('9')">
+                            ADDITIONAL CHARGES
+                            <div class="answer" id="myDIV9" style="display:none">Additional charge for midnight delivery – RM50/deliver (10pm – 8am)</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('10')">
+                            FUEL
+                            <div class="answer" id="myDIV10" style="display:none">Fuel (petrol / diesel), fuel level should be maintained at the same level as when hirer pick up the car.</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('11')">
+                            VEHICLE INSURANCE
+                            <div class="answer" id="myDIV11" style="display:none">
+                                You are responsible for excess not exceed for compact cars RM1,500, sedan cars RM2000, MPV RM2,500 and larger cars RM3,000.<br><br>
+                                You can waive the excess by purchasing Excess Protection.<br>
+                                <ul>
+                                    <li>Compact Rm30/day</li>
+                                    <li>Sedan Rm50/day</li>
+                                    <li>Mpv Rm60/day</li>
+                                    <li>4×4 , Van, Luxury Rm80/day</li>
+                                </ul>
+                                <br>
+                                Estimation of repair cost:<br>
+                                <ul>
+                                    <li>Broken Lights: RM200 - RM2000</li>
+                                    <li>Per Dent: RM100 - RM1500</li>
+                                    <li>Per Scratch: RM100 - RM500</li>
+                                    <li>Per Tyre: RM150 - RM600</li>
+                                </ul>
+                                <br>
+                                Repair cost varies depending on the car type and model.<br><br>
+                                The Excess Protection for accident or damage only applicable for collision between two moving cars. 
+                                Any damage while the vehicle is stationary will be under hirer responsibility and subject to the excess
+                                clause as mentioned above. Excess protection does not apply for damage as a result of your illegal, negligence,
+                                careless actions, car lost, tyre punctures, bust tire, fuel errors, lack of electricity because of forgotten
+                                turned off electrical devices, loss or damage to the vehicle accessories and damages of windows, mirror and undercarriage.<br><br>
+                                If the accident or damage to the vehicle is cause by third party vehicle, then the hirer is responsible
+                                to get all third-party detail such as vehicle registration number, driver’s name and driving license number.
+                                If the claims cannot be made against third party insurance, therefore all damage will be
+                                borne by hirer subject to excess clause as mentioned above.<br><br>
+                                We kindly request that you carefully review the terms and conditions outlined in the Vehicle Use
+                                Agreement before proceeding. Your comprehension and collaboration are greatly appreciated.
+                                We thank you for your ongoing patronage. Please contact us for further clarification
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showAnswerFuntion(value) {
+            var x = document.getElementById("myDIV" + value);
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

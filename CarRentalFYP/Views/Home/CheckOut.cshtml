@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Page = "CheckOut";
+}
+@model CarRentalFYP.Models.Vehicle
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <!--Hero Image-->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/Booking/HeroPic.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>CHECK OUT</h1>
+            </div>
+            @*             <div class="hero-image__container">
+            <img class="hero-image__img" src="~/Images/Home/HeroPictureTwo.png">
+            </div> *@
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <!-- Car Details -->
+    <div class="booking-car-details-container">
+        <div class="car-details">
+            <div class="car-image">
+                @if (Model != null)
+                {
+                    <img src="@(Model != null ? "data:image;base64," + Convert.ToBase64String(Model.Image) : "placeholder.jpg")" alt="@Model?.Name ?? " Please select a vehicle"">
+                }
+            </div>
+            <div class="car-spec">
+                @if (Model != null)
+                {
+                    <table>
+                        <tr>
+                            <th colspan="2">@Model.Name</th>
+                        </tr>
+                        <tr>
+                            <td>Category: @Model.VehicleCategory.Name</td>
+                            <td>Gear Box: Auto</td>
+                        </tr>
+                        <tr>
+                            <td>Year: @Model.Year</td>
+                            <td>Number of Passenger: @Model.NumberOfSeat pax</td>
+                        </tr>
+                        <tr>
+                            <td>Fuel: @Model.VehicleFuel.Name</td>
+                            <td>Price: RM @Model.Price</td>
+                        </tr>
+                        <tr>
+                            <td>Engine Capacity: @Model.EngineCapacity cc</td>
+                            <td>Deposit: RM @Model.Deposit</td>
+                        </tr>
+                    </table>
+                }
+                else
+                {
+                    <p>Please select a vehicle</p>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- booking Form -->
+    <div class="checkout-form">
+        <div class="booking-details-container">
+            <div class="booking-details-left">
+                <h2>Booking Details</h2>
+                <div class="booking-detail">
+                    <label>Customer Name:</label>
+                    <span>@ViewBag.CustomerName</span>
+                </div>
+                <div class="booking-detail">
+                    <label>IC Number:</label>
+                    <span>@ViewBag.ICNumber</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Email:</label>
+                    <span>@ViewBag.Email</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Phone Number:</label>
+                    <span>@ViewBag.PhoneNumber</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Pickup Date:</label>
+                    <span>@ViewBag.PickUpDate.ToString("MM/dd/yyyy")</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Pickup Time:</label>
+                    <span>@ViewBag.PickUpTime</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Pickup Location:</label>
+                    <span>@ViewBag.PickUpLocation</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Dropoff Date:</label>
+                    <span>@ViewBag.DropOffDate.ToString("MM/dd/yyyy")</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Dropoff Time:</label>
+                    <span>@ViewBag.DropOffTime</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Dropoff Location:</label>
+                    <span>@ViewBag.DropOffLocation</span>
+                </div>
+                <div class="booking-detail">
+                    <label>Driving Range:</label>
+                    <span>@ViewBag.DrivingRange</span>
+                </div>
+            </div>
+            <div class="booking-details-right">
+                <div class="special-request">
+                    <h3>Special Requests</h3>
+                    <div class="booking-detail">
+                        <label>Baby Seat:</label>
+                        <span>@ViewBag.BabySeat</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>Phone Holder:</label>
+                        <span>@ViewBag.PhoneHolder</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>USB Cable:</label>
+                        <span>@ViewBag.USBCable</span>
+                    </div>
+                </div>
+                <div class="payment-details">
+                    <h3>Payment Details</h3>
+                    <div class="booking-detail">
+                        <label>Total Rental Price:</label>
+                        <span>@ViewBag.TotalRentalPrice</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>Total Deposit:</label>
+                        <span>@ViewBag.TotalDeposit</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>Total Driving Range Fee:</label>
+                        <span>@ViewBag.TotalDrivingRangeFee</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>Total Payment:</label>
+                        <span>@ViewBag.TotalPayment</span>
+                    </div>
+                </div>
+                <form action="@Url.Action("SaveBooking", "Home")" method="post">
+                <div class="payment-type">
+                    <h3>Payment Type</h3>
+                    <label><input type="radio" name="PaymentType" value="Online" onclick="showBankTransferInfo()"> Online Payment</label><br>
+                    <label><input type="radio" name="PaymentType" value="BankTransfer" onclick="showBankTransferInfo()"> Bank Transfer</label><br>
+                    <div id="bankTransferInfo" style="display: none;">
+                        Please transfer to this bank account:<br>
+                        Bank Name: MayBank<br>
+                        Account Number: 111222333<br>
+                        Please screenshot the payment transaction and Whatsapp to 016-8299110.
+                    </div>
+                    <label><input type="radio" name="PaymentType" value="InPerson" onclick="showBankTransferInfo()"> In Person Payment</label>
+                </div>
+                    <input type="hidden" name="VehicleId" value="@Model?.VehicleId">
+                    <input type="hidden" name="CustomerName" value="@ViewBag.CustomerName">
+                    <input type="hidden" name="Icnumber" value="@ViewBag.ICNumber">
+                    <input type="hidden" name="Email" value="@ViewBag.Email">
+                    <input type="hidden" name="CustomerPhoneNumber" value="@ViewBag.PhoneNumber">
+                    <input type="hidden" name="PickUpDate" value="@ViewBag.PickUpDate">
+                    <input type="hidden" name="PickUpTime" value="@ViewBag.PickUpTime">
+                    <input type="hidden" name="PickUpLocation" value="@ViewBag.PickUpLocation">
+                    <input type="hidden" name="DropOffDate" value="@ViewBag.DropOffDate">
+                    <input type="hidden" name="DropOffTime" value="@ViewBag.DropOffTime">
+                    <input type="hidden" name="DropOffLocation" value="@ViewBag.DropOffLocation">
+                    <input type="hidden" name="DrivingRange" value="@ViewBag.DrivingRange">
+                    <input type="hidden" name="BabySeat" value="@ViewBag.BabySeat">
+                    <input type="hidden" name="PhoneHolder" value="@ViewBag.PhoneHolder">
+                    <input type="hidden" name="UsbCable" value="@ViewBag.UsbCable">
+                    <input type="hidden" name="Amount" value="@ViewBag.TotalPayment">
+                    <button type="submit" class="checkout-button checkout-button">Confirm Reservation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function showBankTransferInfo() {
+            var bankTransferInfo = document.getElementById("bankTransferInfo");
+            var bankTransferRadio = document.querySelector('input[name="PaymentType"][value="BankTransfer"]');
+            var onlinePaymentRadio = document.querySelector('input[name="PaymentType"][value="Online"]');
+            var inPersonRadio = document.querySelector('input[name="PaymentType"][value="InPerson"]');
+            if (bankTransferRadio.checked) {
+                bankTransferInfo.style.display = "block";
+            } else {
+                bankTransferInfo.style.display = "none";
+            }
+            if (onlinePaymentRadio.checked || inPersonRadio.checked) {
+                bankTransferInfo.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

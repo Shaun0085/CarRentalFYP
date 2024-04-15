@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"] - CarRentalFYP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+     <header>
+        <a href="@Url.Action("Index", "Home")"><img class="header-logo" src="~/Images/WebsiteLogo.png"></a>
+        <a class="website-name" style="color:white">Everyday Transport</a>
+        <input class="menu-btn" type="checkbox" id="menu-btn" />
+        <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+        <ul class="menu">
+            <li><a class="@((ViewBag.Page == "Index") ? "active" : null)" href="@Url.Action("Index", "Home")">Home</a></li>
+            <li><a class="@((ViewBag.Page == "CarList") ? "active" : null)" href="@Url.Action("CarList", "Home")">Cars</a></li>
+            <li><a class="@((ViewBag.Page == "TNC") ? "active" : null)" href="@Url.Action("TNC", "Home")">T&C</a></li>
+            <li><a class="@((ViewBag.Page == "FAQ") ? "active" : null)" href="@Url.Action("FAQ", "Home")">FAQ</a></li>
+            <li><a class="@((ViewBag.Page == "AboutUs") ? "active" : null)" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
+        </ul>
+    </header> 
+    <!-- Body -->
+    <div class="container">
+        @RenderBody()
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-row footer-row-info">
+            <div class="footer-column">
+                <a href="@Url.Action("Index", "Home")"><img class="footer-logo" src="~/Images/WebsiteLogo.png"></a>
+                <h2>Everyday Transport</h2>
+            </div>
+            <div class="footer-column">
+                <h3>INFORMATIONS</h3>
+                <div class="wrap">
+                    <img class="footer-icon" src="~/Images/Footer/Email.png"><a href="mailto:everydaytransport.official@gmail.com">Everydaytransport@gmail.com</a><hr style="margin-top: 45px;" />
+                </div>
+                <div class="wrap">
+                    <img class="footer-icon" src="~/Images/Footer/Phone.png"><a href="tel:016-8299110">016-8299110</a> <hr style="margin-top: 45px;" />
+                </div>
+                <div class="wrap">
+                    <img class="footer-icon" src="~/Images/Footer/Facebook.png"><a href="https://www.facebook.com/CarRentalWelson?mibextid=LQQJ4d">Facebook</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>QUICK MENUS</h3>
+                <ul class="quick-menu">
+                    <li><a href="@Url.Action("Index", "Home")">Home</a><hr></li>
+                    <li><a href="@Url.Action("CarList", "Home")">Cars</a><hr></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER SERVICES</h3>
+                <ul class="quick-menu">
+                    <li><a href="@Url.Action("TNC", "Home")">Terms & Conditions</a><hr></li>
+                    <li><a href="@Url.Action("FAQ", "Home")">Frequently Asked Questions</a><hr /></li>
+                    <li><a href="@Url.Action("AboutUs", "Home")">About us</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="line">
+        <div class="copyright">
+            &copy; 2019-2023 Wagons Car Rental Services (119361). All Rights Reserved.
+        </div>
+        <div class="links">
+            <a href="https://www.freepik.com/free-vector">Image By Storyset On Freepik</a>
+        </div>
+    </footer>
+    <!--Script-->
+    <script src="~/js/swiper-bundle.min.js"></script>
+    <script src="~/js/script.js"></script>
+</body>
+</html>

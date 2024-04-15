@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CarRentalFYP.Models.Vehicle>
+@{
+    ViewBag.Page = "CarList";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Hero Image -->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/CarList/HeroBigPic.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>FIND YOUR RIDE</h1>
+            </div>
+            <div class="hero-image__container">
+                <img class="hero-image__img" src="~/Images/CarList/HeroImgTwo.png">
+            </div>
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <div class="car-list-container">
+        <h1 class="car-list-title">Vehicle Fleet</h1>
+        <div class="car-list-row">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var car in Model)
+                {
+                    <div class="card">
+                        <img src="data:image;base64,@Convert.ToBase64String(car.Image)" class="card-img-top" alt="@car.Name">
+                        <div class="card-body">
+                            <div class="card-name">@car.Name</div>
+                            <div class="card-category">@car.VehicleCategory.Name</div>
+                            <div class="card-price">RM @car.Price</div>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="spec-title">No. Seat:</div> @car.NumberOfSeat
+                                    </td>
+                                    <td class="right">
+                                        <div class="spec-title">Engine:</div> @car.EngineCapacity
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="spec-title">Year:</div> @car.Year
+                                    </td>
+                                    <td class="right">
+                                        <div class="spec-title">Deposit:</div> @car.Deposit
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="spec-title">Gearbox:</div> @car.VehicleTransmission.Name
+                                    </td>
+                                    <td class="right">
+                                        <div class="spec-title">Fuel:</div> @car.VehicleFuel.Name
+                                    </td>
+                                </tr>
+                            </table>
+                            <a href="@Url.Action("Booking", "Home", new { vehicleId = car.VehicleId })" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No cars available.</p>
+            }
+        </div>
+    </div>
+</body>
+</html>

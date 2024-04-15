@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Page = "FAQ";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    </style>
+</head>
+<body>
+    <!-- Hero Image -->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/FAQ/HeroImage.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>FREQUENTLY ASKED QUESTIONS</h1>
+            </div>
+            <div class="hero-image__container">
+                <img class="hero-image__img" src="~/Images/FAQ/HeroPictureTwo.png">
+            </div>
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <div class="faq-flex-wrapper">
+        <div class="faq-flex-container">
+            <div class="row">
+                <div class="column">
+                    <p>
+                        Some common inquiries about our services, policies, 
+                        and procedures. Whether you're seeking information on booking procedures, 
+                        vehicle availability, pricing, or any other aspect of our car rental service, 
+                        our FAQ section aims to address your queries efficiently. By compiling the 
+                        most commonly asked questions in one convenient location, we strive to 
+                        enhance your experience and ensure clarity, helping you make informed decisions with ease. 
+                        If you have other questions that are not included down below, do contact us.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <ol>
+                        <li class="question" onclick="showAnswerFuntion('1')">
+                            Q : Can i make a prior payment for deposit before booking?
+                            <div class="answer" id="myDIV1" style="display:none">A : Yes you can. To confirm booking, please proceed the payment for deposit car RM 100-car, Van RM 150</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('2')">
+                            Q : Can I cancel my order and get refund?
+                            <div class="answer" id="myDIV2" style="display:none">A : YES, it is only 50% refundable from the total price</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('3')">
+                            Q : Which is the cheapest car available in Kuching?
+                            <div class="answer" id="myDIV3" style="display:none">A : The Cheapest car for rent in Kuching is Perodua Axia</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('4')">
+                            Q : What is Insurance and Collision Damage Waiver?
+                            <div class="answer" id="myDIV4" style="display:none">
+                                A : All of our fleets are equipped with standard commercial motor vehicle insurance scheme in accordance with road
+                                transport act 1987. No matter what happened and how serious the damage to the rental vehicle during renting period
+                                whether is due to hirer negligence or third party negligence, the hirer will only be responsible for the excess
+                                that shall not exceed the amount specified below<br> 1000-1500cc:RM2000<br>1501-3000cc:RM3000<br>3001-5000cc:RM4000<br>
+                                For Hirer attention, if they would like to request for Add-On Insurance, below is the detail information.
+                                Add on insurance is the additional insurance which is entirely up to customers to choose from. The customers need no longer to pay additional
+                                payment if no damage found. The customers are required to pay RM100 for cars below 1.5cc and RM150 for cars above and including 1.5cc<br>
+                                Important: The customers who are not insured need to follow the excess payment according to the agreement.<br><br>
+                                Add on insurance covers the following list:
+                                <ul class="list_ul">
+                                    <li>broken front mirror</li>
+                                    <li>damaged tyres</li>
+                                    <li>any other misfortunes</li>
+                                </ul>
+                                <br>
+                                The add on insurance excludes the following:
+                                <ul class="list_ul">
+                                    <li>sleep driving</li>
+                                    <li>accident Sue to alcohol/drug/illegal parking or activities</li>
+                                    <li>all parking fees or traffic fines incurred during rental period will be under customer responsibility</li>
+                                    <li>any outstation trips besides from Kuching, such as Sri Aman, Betong, Sibu and other division must encountered permission from the owner, due to extra charge applied</li>
+                                    <li>fines due to accident</li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('5')">
+                            Q : Is this car rental have security deposit?
+                            <div class="answer" id="myDIV5" style="display:none">A : Yes, we need security deposit RM100 for each car. The deposit will be collected when you get the car and the deposit will be returned immediately upon returning the car</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('6')">
+                            Q : Is It possible to change the rental date?
+                            <div class="answer" id="myDIV6" style="display:none">A : Yes, please let us know 5 days before the date. We are sorry to inform that there is no last minute changes hence no refund</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('7')">
+                            Q : How do I pick up my rental car?
+                            <div class="answer" id="myDIV7" style="display:none">
+                                A : We will contact you immediately after you comfirm the booking. Please make sure the detail of the booking
+                                confirmation, i.e. name, phone and email are correct when you palce the order. Routinely, the car will be
+                                delivered to you at certain locations, such as airport & hotel
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('8')">
+                            Q : What is the calculation method for rental rate?
+                            <div class="answer" id="myDIV8" style="display:none">
+                                A : The rate are based on daily basis where it is counted to 24 hours time length.However, if the rental
+                                period exceeds 8 hours, it will be considered as one day which is equivalent to 24 hours
+                            </div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('9')">
+                            Q : Can I book the car on the same day?
+                            <div class="answer" id="myDIV9" style="display:none">A : Yes. however, it is highly recommended to place an order few day beforehand to make sure the everything goes as planned.</div>
+                        </li>
+
+                        <li class="question" onclick="showAnswerFuntion('10')">
+                            Q : Why can't find any available cars for the date I wish to travel?
+                            <div class="answer" id="myDIV10" style="display:none">
+                                A : The availability of cars may be limited during peak seasons, such as public holidays etc.
+                                Nevertheless, it is advisable to book your car rental a few days in advance to avoid disappointment.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showAnswerFuntion(value) {
+            var x = document.getElementById("myDIV" + value);
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

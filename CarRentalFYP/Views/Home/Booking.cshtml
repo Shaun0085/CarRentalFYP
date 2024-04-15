@@ -1,0 +1,184 @@
+﻿@model CarRentalFYP.Models.Vehicle
+@{
+    ViewBag.Page = "Booking";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <!--Hero Image-->
+    <div class="hero-image">
+        <img class="hero-image__background" src="~/Images/Booking/HeroPic.jpg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>BOOK YOUR RIDE</h1>
+            </div>
+@*             <div class="hero-image__container">
+                <img class="hero-image__img" src="~/Images/Home/HeroPictureTwo.png">
+            </div> *@
+        </div>
+    </div>
+    <!-- Web page Content -->
+    <!-- Car Details -->
+    <div class="booking-car-details-container">
+        <div class="car-details">
+            <div class="car-image">
+                @if (Model != null)
+                {
+                    <img src="@(Model != null ? "data:image;base64," + Convert.ToBase64String(Model.Image) : "placeholder.jpg")" alt="@Model?.Name ?? "Please select a vehicle"">
+                }
+            </div>
+            <div class="car-spec">
+                @if (Model != null)
+                {
+                    <table>
+                        <tr>
+                            <th colspan="2">@Model.Name</th>
+                        </tr>
+                        <tr>
+                            <td>Category: @Model.VehicleCategory.Name</td>
+                            <td>Gear Box: Auto</td>
+                        </tr>
+                        <tr>
+                            <td>Year: @Model.Year</td>
+                            <td>Number of Passenger: @Model.NumberOfSeat pax</td>
+                        </tr>
+                        <tr>
+                            <td>Fuel: @Model.VehicleFuel.Name</td>
+                            <td>Price: RM @Model.Price</td>
+                        </tr>
+                        <tr>
+                            <td>Engine Capacity: @Model.EngineCapacity cc</td>
+                            <td>Deposit: RM @Model.Deposit</td>
+                        </tr>
+                    </table>
+                }
+                else
+                {
+                    <p>Please select a vehicle</p>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- booking Form -->
+    <div class="booking-form">
+        <h2>Reservation Details</h2>
+        <form action="@Url.Action("Checkout", "Home")" method="post" id="bookingForm">
+            <div class="booking-form-group">
+                <label for="vehicle">Vehicle:</label>
+                <input id="vehicleId" name="VehicleId" type="hidden" value="@Model?.VehicleId" required>
+                <input id="vehicle" name="Vehicle" type="text" readonly value="@Model?.Name" required>
+            </div>
+            <div class="booking-form-group">
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" name="CustomerName" required>
+            </div>
+            <div class="booking-form-group">
+                <label for="identification-number">Identification Number:</label>
+                <input type="text" id="identification-number" name="Icnumber" required>
+            </div>
+            <div class="booking-form-group">
+                <label for="email">Customer Email:</label>
+                <input type="email" id="email" name="Email" required>
+            </div>
+            <div class="booking-form-group">
+                <label for="phone-number">Phone Number:</label>
+                <input type="tel" id="phone-number" name="CustomerPhoneNumber" required>
+            </div>
+            <div class="booking-form-group">
+                <label>Pickup Date & Time:</label>
+                <div class="booking-form-row ">
+                    <div class="booking-form-col">
+                        <input type="date" id="pickup-date" name="PickUpDate" required>
+                    </div>
+                    <div class="booking-form-col">
+                        <input type="time" id="pickup-time" name="PickUpTime" required>
+                    </div>
+                </div>
+            </div>
+            <div class="booking-form-group">
+                <label for="pickup-location">Pickup Location:</label>
+                <select id="pickup-location" name="PickUpLocation">
+                    <option value="none" selected disabled hidden>Select an Option</option>
+                    <option value="airport">Airport</option>
+                    <option value="busstation">Kuching Sentral Bus Station</option>
+                    <option value="hotel">Hotel in Kuching (RM15)</option>
+                </select>
+            </div>
+            <div class="booking-form-group">
+                <label>Dropoff Date & Time:</label>
+                <div class="booking-form-row ">
+                    <div class="booking-form-col">
+                        <input type="date" id="dropoff-date" name="DropOffDate" required>
+                    </div>
+                    <div class="booking-form-col">
+                        <input type="time" id="dropoff-time" name="DropOffTime" required>
+                    </div>
+                </div>
+            </div>
+            <div class="booking-form-group">
+                <label for="dropoff-location">Dropoff Location:</label>
+                <select id="dropoff-location" name="DropOffLocation">
+                    <option value="none" selected disabled hidden>Select an Option</option>
+                    <option value="airport">Airport</option>
+                    <option value="busstation">Kuching Sentral Bus Station</option>
+                    <option value="hotel">Hotel in Kuching (RM15)</option>
+                </select>
+            </div>
+            <div class="booking-form-group">
+                <label for="driving-range">Driving Range:</label>
+                <label>Fees are one time payment only!</label>
+                <select id="driving-range-select" name="DrivingRange" required>
+                    <option value="" selected disabled>Select Driving Range</option>
+                    @foreach (var range in ViewBag.DrivingRanges)
+                    {
+                        <option value="@range.LocationId">@range.Name (RM @range.Fee)</option>
+                    }
+                </select>
+            </div>
+            <div class="booking-form-group">
+                <label>Special Requests:</label>
+                <div class="booking-form-row-sprcial-request">
+                    <input type="checkbox" id="baby-chair" name="BabySeat" value="on">
+                    <label class="checkbox-lable" for="baby-chair">Baby Chair</label>
+                    <input type="checkbox" id="phone-holder" name="PhoneHolder" value="on">
+                    <label class="checkbox-lable" for="phone-holder">Phone Holder</label>
+                    <input type="checkbox" id="usb-cables" name="UsbCable" value="on">
+                    <label class="checkbox-lable" for="usb-cables">USB Cables</label>
+                </div>
+            </div>
+            <button type="submit" class="booking-form-button ">Check Out</button>
+        </form>
+    </div>
+
+    <!-- Script -->
+    <!-- Disable Previous Date -->
+    <script>
+        $(function () {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+            $('#pickup-date').attr('min', maxDate);
+            $('#dropoff-date').attr('min', maxDate);
+        });
+    </script>
+    <script>
+        function submitForm() {
+            // Serialize the form data
+            var formData = $("#bookingForm").serialize();
+            // Redirect to the checkout page with the form data as query parameters
+            window.location.href = "@Url.Action("Checkout", "Home")?" + formData;
+        }
+    </script>
+</body>
+</html>
