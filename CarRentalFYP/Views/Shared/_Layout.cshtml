@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="~/css/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -29,6 +30,7 @@
     <!-- Body -->
     <div class="container">
         @RenderBody()
+        <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
     </div>
     <!-- Footer -->
     <footer>
@@ -76,5 +78,20 @@
     <!--Script-->
     <script src="~/js/swiper-bundle.min.js"></script>
     <script src="~/js/script.js"></script>
+    <script>
+        let mybutton = document.getElementById("myBtn");
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 </body>
 </html>

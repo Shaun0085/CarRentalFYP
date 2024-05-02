@@ -1,5 +1,4 @@
-﻿@model CarRentalFYP.Models.Vehicle
-@{
+﻿@{
     ViewBag.Page = "Booking";
 }
 <!DOCTYPE html>
@@ -25,33 +24,33 @@
     <div class="booking-car-details-container">
         <div class="car-details">
             <div class="car-image">
-                @if (Model != null)
+                @if (Model.Vehicle != null)
                 {
-                    <img src="@(Model != null ? "data:image;base64," + Convert.ToBase64String(Model.Image) : "placeholder.jpg")" alt="@Model?.Name ?? "Please select a vehicle"">
+                    <img src="@(Model.Vehicle != null ? "data:image;base64," + Convert.ToBase64String(Model.Vehicle.Image) : "placeholder.jpg")" alt="@Model.Vehicle?.Name ?? " Please select a vehicle"">
                 }
             </div>
             <div class="car-spec">
-                @if (Model != null)
+                @if (Model.Vehicle != null)
                 {
                     <table>
                         <tr>
-                            <th colspan="2">@Model.Name</th>
+                            <th colspan="2">@Model.Vehicle.Name</th>
                         </tr>
                         <tr>
-                            <td>Category: @Model.VehicleCategory.Name</td>
+                            <td>Category: @Model.Vehicle.VehicleCategory.Name</td>
                             <td>Gear Box: Auto</td>
                         </tr>
                         <tr>
-                            <td>Year: @Model.Year</td>
-                            <td>Number of Passenger: @Model.NumberOfSeat pax</td>
+                            <td>Year: @Model.Vehicle.Year</td>
+                            <td>Number of Passenger: @Model.Vehicle.NumberOfSeat pax</td>
                         </tr>
                         <tr>
-                            <td>Fuel: @Model.VehicleFuel.Name</td>
-                            <td>Price: RM @Model.Price</td>
+                            <td>Fuel: @Model.Vehicle.VehicleFuel.Name</td>
+                            <td>Price: RM @Model.Vehicle.Price</td>
                         </tr>
                         <tr>
-                            <td>Engine Capacity: @Model.EngineCapacity cc</td>
-                            <td>Deposit: RM @Model.Deposit</td>
+                            <td>Engine Capacity: @Model.Vehicle.EngineCapacity cc</td>
+                            <td>Deposit: RM @Model.Vehicle.Deposit</td>
                         </tr>
                     </table>
                 }
@@ -68,8 +67,8 @@
         <form action="@Url.Action("Checkout", "Home")" method="post" id="bookingForm">
             <div class="booking-form-group">
                 <label for="vehicle">Vehicle:</label>
-                <input id="vehicleId" name="VehicleId" type="hidden" value="@Model?.VehicleId" required>
-                <input id="vehicle" name="Vehicle" type="text" readonly value="@Model?.Name" required>
+                <input id="vehicleId" name="VehicleId" type="hidden" value="@Model.Vehicle?.VehicleId" required>
+                <input id="vehicle" name="Vehicle" type="text" readonly value="@Model.Vehicle?.Name" required>
             </div>
             <div class="booking-form-group">
                 <label for="customer-name">Customer Name:</label>
@@ -100,11 +99,11 @@
             </div>
             <div class="booking-form-group">
                 <label for="pickup-location">Pickup Location:</label>
-                <select id="pickup-location" name="PickUpLocation">
+                <select id="pickup-location" name="PickUpLocation" required>
                     <option value="none" selected disabled hidden>Select an Option</option>
-                    <option value="airport">Airport</option>
-                    <option value="busstation">Kuching Sentral Bus Station</option>
-                    <option value="hotel">Hotel in Kuching (RM15)</option>
+                    <option value="Kuching International Airport">Kuching International Airport</option>
+                    <option value="Bus Station">Kuching Sentral Bus Station</option>
+                    <option value="Hotel">Hotel in Kuching (RM15)</option>
                 </select>
             </div>
             <div class="booking-form-group">
@@ -120,19 +119,19 @@
             </div>
             <div class="booking-form-group">
                 <label for="dropoff-location">Dropoff Location:</label>
-                <select id="dropoff-location" name="DropOffLocation">
+                <select id="dropoff-location" name="DropOffLocation" required>
                     <option value="none" selected disabled hidden>Select an Option</option>
-                    <option value="airport">Airport</option>
-                    <option value="busstation">Kuching Sentral Bus Station</option>
-                    <option value="hotel">Hotel in Kuching (RM15)</option>
+                    <option value="Kuching International Airport">Kuching International Airport</option>
+                    <option value="Bus Station">Kuching Sentral Bus Station</option>
+                    <option value="Hotel">Hotel in Kuching (RM15)</option>
                 </select>
             </div>
             <div class="booking-form-group">
                 <label for="driving-range">Driving Range:</label>
                 <label>Fees are one time payment only!</label>
                 <select id="driving-range-select" name="DrivingRange" required>
-                    <option value="" selected disabled>Select Driving Range</option>
-                    @foreach (var range in ViewBag.DrivingRanges)
+                    <option value="" selected disabled>Select A Driving Range</option>
+                    @foreach (var range in Model.DrivingRanges)
                     {
                         <option value="@range.LocationId">@range.Name (RM @range.Fee)</option>
                     }
@@ -141,12 +140,18 @@
             <div class="booking-form-group">
                 <label>Special Requests:</label>
                 <div class="booking-form-row-sprcial-request">
-                    <input type="checkbox" id="baby-chair" name="BabySeat" value="on">
+                    <input type="checkbox" id="baby-chair" name="BabySeat" value="Yes">
                     <label class="checkbox-lable" for="baby-chair">Baby Chair</label>
-                    <input type="checkbox" id="phone-holder" name="PhoneHolder" value="on">
+                    <input type="checkbox" id="phone-holder" name="PhoneHolder" value="Yes">
                     <label class="checkbox-lable" for="phone-holder">Phone Holder</label>
-                    <input type="checkbox" id="usb-cables" name="UsbCable" value="on">
+                    <input type="checkbox" id="usb-cables" name="UsbCable" value="Yes">
                     <label class="checkbox-lable" for="usb-cables">USB Cables</label>
+                </div>
+            </div>
+            <div class="booking-form-group">
+                <div class="booking-form-row-sprcial-request">
+                    <input type="checkbox" id="tnc" name="tnc" required>
+                    <label class="checkbox-lable" for="tnc">I have Read The <a href="@Url.Action("TNC", "Home")">Terms And Conditions</a></label>
                 </div>
             </div>
             <button type="submit" class="booking-form-button ">Check Out</button>

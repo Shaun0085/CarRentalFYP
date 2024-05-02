@@ -108,57 +108,62 @@
                 </div>
                 <div class="booking-detail">
                     <label>Driving Range:</label>
-                    <span>@ViewBag.DrivingRange</span>
+                    <span>@ViewBag.DrivingRangeName</span>
                 </div>
             </div>
             <div class="booking-details-right">
                 <div class="special-request">
-                    <h3>Special Requests</h3>
+                    <h2>Special Requests</h2>
                     <div class="booking-detail">
                         <label>Baby Seat:</label>
-                        <span>@ViewBag.BabySeat</span>
+                        <span>@(string.IsNullOrEmpty(ViewBag.BabySeat) ? "No" : ViewBag.BabySeat)</span>
                     </div>
                     <div class="booking-detail">
                         <label>Phone Holder:</label>
-                        <span>@ViewBag.PhoneHolder</span>
+                        <span>@(string.IsNullOrEmpty(ViewBag.PhoneHolder) ? "No" : ViewBag.PhoneHolder)</span>
                     </div>
                     <div class="booking-detail">
                         <label>USB Cable:</label>
-                        <span>@ViewBag.USBCable</span>
+                        <span>@(string.IsNullOrEmpty(ViewBag.USBCable) ? "No" : ViewBag.USBCable)</span>
                     </div>
                 </div>
                 <div class="payment-details">
-                    <h3>Payment Details</h3>
+                    <h2>Payment Details</h2>
                     <div class="booking-detail">
                         <label>Total Rental Price:</label>
-                        <span>@ViewBag.TotalRentalPrice</span>
+                        <span>RM @ViewBag.TotalRentalPrice</span>
                     </div>
                     <div class="booking-detail">
                         <label>Total Deposit:</label>
-                        <span>@ViewBag.TotalDeposit</span>
+                        <span>RM @ViewBag.TotalDeposit</span>
                     </div>
                     <div class="booking-detail">
                         <label>Total Driving Range Fee:</label>
-                        <span>@ViewBag.TotalDrivingRangeFee</span>
+                        <span>RM @ViewBag.TotalDrivingRangeFee</span>
+                    </div>
+                    <div class="booking-detail">
+                        <label>Total Vehicle Delivery Fee (Hotel):</label>
+                        <span>RM @ViewBag.TotalDeliveryFee</span>
                     </div>
                     <div class="booking-detail">
                         <label>Total Payment:</label>
-                        <span>@ViewBag.TotalPayment</span>
+                        <span>RM @ViewBag.TotalPayment</span>
                     </div>
                 </div>
-                <form action="@Url.Action("SaveBooking", "Home")" method="post">
-                <div class="payment-type">
-                    <h3>Payment Type</h3>
-                    <label><input type="radio" name="PaymentType" value="Online" onclick="showBankTransferInfo()"> Online Payment</label><br>
-                    <label><input type="radio" name="PaymentType" value="BankTransfer" onclick="showBankTransferInfo()"> Bank Transfer</label><br>
-                    <div id="bankTransferInfo" style="display: none;">
-                        Please transfer to this bank account:<br>
-                        Bank Name: MayBank<br>
-                        Account Number: 111222333<br>
-                        Please screenshot the payment transaction and Whatsapp to 016-8299110.
+                <form id="paymentForm" method="post">
+                    <div class="payment-type">
+                        <h2>Payment Type</h2>
+                        <label><input type="radio" name="PaymentType" value="Online" onclick="showBankTransferInfo()" required> Online Payment</label><br>
+                        <label><input type="radio" name="PaymentType" value="BankTransfer" onclick="showBankTransferInfo()" required> Bank Transfer</label><br>
+                        <div id="bankTransferInfo" style="display: none;">
+                            Please transfer to this bank account:<br>
+                            Bank Name: MayBank<br>
+                            Account Number: 111222333<br>
+                            Please screenshot the payment transaction and Whatsapp to 016-8299110.
+                        </div>
+                        <label><input type="radio" name="PaymentType" value="InPerson" onclick="showBankTransferInfo()" required> In Person Payment</label>
                     </div>
-                    <label><input type="radio" name="PaymentType" value="InPerson" onclick="showBankTransferInfo()"> In Person Payment</label>
-                </div>
+                    <input type="hidden" name="orderId" id="orderIdInput">
                     <input type="hidden" name="VehicleId" value="@Model?.VehicleId">
                     <input type="hidden" name="CustomerName" value="@ViewBag.CustomerName">
                     <input type="hidden" name="Icnumber" value="@ViewBag.ICNumber">
@@ -175,7 +180,7 @@
                     <input type="hidden" name="PhoneHolder" value="@ViewBag.PhoneHolder">
                     <input type="hidden" name="UsbCable" value="@ViewBag.UsbCable">
                     <input type="hidden" name="Amount" value="@ViewBag.TotalPayment">
-                    <button type="submit" class="checkout-button checkout-button">Confirm Reservation</button>
+                    <button type="button" class="checkout-button" onclick="submitForm()">Confirm Reservation</button>
                 </form>
             </div>
         </div>
@@ -196,6 +201,29 @@
             if (onlinePaymentRadio.checked || inPersonRadio.checked) {
                 bankTransferInfo.style.display = "none";
             }
+        }
+    </script>
+
+    <script>
+        function processOnlinePayment(orderId) {
+            document.getElementById("orderIdInput").value = orderId;
+            document.getElementById("paymentForm").submit();
+        }
+    </script>
+
+    <script>
+        function submitForm() {
+            var paymentType = document.querySelector('input[name="PaymentType"]:checked').value;
+            var formAction = "";
+
+            if (paymentType === "Online") {
+                formAction = "@Url.Action("InitiateOrder", "Home")";
+            } else if (paymentType === "BankTransfer" || paymentType === "InPerson") {
+                formAction = "@Url.Action("SaveBooking", "Home")";
+            }
+
+            document.getElementById('paymentForm').action = formAction;
+            document.getElementById('paymentForm').submit();
         }
     </script>
 </body>

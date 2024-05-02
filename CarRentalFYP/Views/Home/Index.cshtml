@@ -137,6 +137,17 @@
             <img src="~/Images/Home/Visa.png">
         </div>
     </section>
+    <!-- Booking Success Modal -->
+    <div id="bookingSuccessModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingSuccessModal()">&times;</span>
+            <img src="~/Images/CheckIcon.png"/>
+            <h2>BOOKING SUCCESS</h2>
+            <hr>
+            <p>Thank You For Booking With Us!</p>
+            <p> Our staff  member will contact you and confirm your booking.</p>
+        </div>
+    </div>
 
     <!-- Script -->
     <!-- Disable Previous Date -->
@@ -156,12 +167,26 @@
             $('#pickup-date').attr('min', maxDate);
             $('#dropoff-date').attr('min', maxDate);
 
-            // Add change event listener to pick-up date input
             $('#pickup-date').change(function () {
                 var minPickupDate = $(this).val();
                 $('#dropoff-date').attr('min', minPickupDate);
             });
         });
+    </script>
+    <!-- Booking Success Modal -->
+    <script>
+         var urlParams = new URLSearchParams(window.location.search);
+         if (urlParams.has('showBookingSuccessModal')) {
+            openBookingSuccessModal();
+         }
+        function openBookingSuccessModal() {
+            var modal = document.getElementById("bookingSuccessModal");
+            modal.style.display = "block";
+        }
+        function closeBookingSuccessModal() {
+            var modal = document.getElementById("bookingSuccessModal");
+            modal.style.display = "none";
+        }
     </script>
 </body>
 </html>

@@ -53,6 +53,9 @@ public partial class CarRentalDatabaseContext : DbContext
             entity.Property(e => e.Email).IsUnicode(false);
             entity.Property(e => e.Icnumber).HasColumnName("ICNumber");
             entity.Property(e => e.LocationId).HasColumnName("LocationID");
+            entity.Property(e => e.OrderId)
+                .IsUnicode(false)
+                .HasColumnName("OrderID");
             entity.Property(e => e.PaymentId).HasColumnName("PaymentID");
             entity.Property(e => e.PaymentType).IsUnicode(false);
             entity.Property(e => e.PickUpDate).HasColumnType("date");
