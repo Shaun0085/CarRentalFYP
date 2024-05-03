@@ -1,46 +1,52 @@
-﻿CREATE TABLE [dbo].[Bookings]
-(
-	[BookingID] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [CustomerName] NVARCHAR(MAX) NULL, 
-    [ICNumber] NVARCHAR(MAX) NULL, 
-    [CustomerPhoneNumber] NVARCHAR(MAX) NULL, 
-    [PickUpLocation] NVARCHAR(MAX) NULL, 
-    [PickUpDate] DATE NULL, 
-    [PickUpTime] TIME NULL, 
-    [DropOffLocation] NVARCHAR(MAX) NULL, 
-    [DropOffDate] DATE NULL, 
-    [DropOffTime] TIME NULL, 
-    [BabySeat] NVARCHAR(MAX) NULL, 
-    [UsbCable] NVARCHAR(MAX) NULL, 
-    [PhoneHolder] NVARCHAR(MAX) NULL, 
-    [VehicleID] INT NULL, 
-    [PaymentID] INT NULL, 
-    [BookingStatusID] INT NULL, 
-    [LocationID] INT NULL, 
-    [CarID] INT NULL, 
-    CONSTRAINT [FK_Bookings_ToVehicles] FOREIGN KEY ([VehicleID]) REFERENCES [Vehicles]([VehicleID]), 
-    CONSTRAINT [FK_Bookings_ToPayments] FOREIGN KEY ([PaymentID]) REFERENCES [Payments]([PaymentID]), 
-    CONSTRAINT [FK_Bookings_ToBookingStatuses] FOREIGN KEY ([BookingStatusID]) REFERENCES [BookingStatuses]([BookingStatusID]), 
-    CONSTRAINT [FK_Bookings_ToLocations] FOREIGN KEY ([LocationID]) REFERENCES [Locations]([LocationID]), 
-    CONSTRAINT [FK_Bookings_ToCars] FOREIGN KEY ([CarID]) REFERENCES [Cars]([CarID]) 
-)
+﻿CREATE TABLE [dbo].[Bookings] (
+    [BookingID]           INT            IDENTITY (1, 1) NOT NULL,
+    [CustomerName]        NVARCHAR (MAX) NULL,
+    [ICNumber]            NVARCHAR (MAX) NULL,
+    [CustomerPhoneNumber] NVARCHAR (MAX) NULL,
+    [PickUpLocation]      NVARCHAR (MAX) NULL,
+    [PickUpDate]          DATE           NULL,
+    [PickUpTime]          TIME (7)       NULL,
+    [DropOffLocation]     NVARCHAR (MAX) NULL,
+    [DropOffDate]         DATE           NULL,
+    [DropOffTime]         TIME (7)       NULL,
+    [BabySeat]            NVARCHAR (MAX) NULL,
+    [UsbCable]            NVARCHAR (MAX) NULL,
+    [PhoneHolder]         NVARCHAR (MAX) NULL,
+    [VehicleID]           INT            NULL,
+    [PaymentID]           INT            NULL,
+    [BookingStatusID]     INT            NULL,
+    [LocationID]          INT            NULL,
+    [CarID]               INT            NULL,
+    [Amount]              INT            NULL,
+    [Email]               VARCHAR (MAX)  NULL,
+    [PaymentType]         VARCHAR (MAX)  NULL,
+    [OrderID]             VARCHAR (MAX)  NULL,
+    PRIMARY KEY CLUSTERED ([BookingID] ASC),
+    FOREIGN KEY ([BookingStatusID]) REFERENCES [dbo].[BookingStatuses] ([BookingStatusID]),
+    FOREIGN KEY ([CarID]) REFERENCES [dbo].[Cars] ([CarID]),
+    FOREIGN KEY ([LocationID]) REFERENCES [dbo].[Locations] ([LocationID]),
+    FOREIGN KEY ([PaymentID]) REFERENCES [dbo].[Payments] ([PaymentID]),
+    FOREIGN KEY ([VehicleID]) REFERENCES [dbo].[Vehicles] ([VehicleID])
+);
+
+
 
 GO
 
-CREATE INDEX [IX_Bookings_VehicleID] ON [dbo].[Bookings] ([VehicleID])
+
 
 GO
 
-CREATE INDEX [IX_Bookings_BookingStatusID] ON [dbo].[Bookings] ([BookingStatusID])
+
 
 GO
 
-CREATE INDEX [IX_Bookings_PaymentID] ON [dbo].[Bookings] ([PaymentID])
+
 
 GO
 
-CREATE INDEX [IX_Bookings_LocationID] ON [dbo].[Bookings] ([LocationID])
+
 
 GO
 
-CREATE INDEX [IX_Bookings_CarID] ON [dbo].[Bookings] ([CarID])
+

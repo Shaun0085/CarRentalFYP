@@ -145,7 +145,7 @@
             <h2>BOOKING SUCCESS</h2>
             <hr>
             <p>Thank You For Booking With Us!</p>
-            <p> Our staff  member will contact you and confirm your booking.</p>
+            <p> Our staff member will contact you anytime regarding your booking.</p>
         </div>
     </div>
 
@@ -175,17 +175,21 @@
     </script>
     <!-- Booking Success Modal -->
     <script>
-         var urlParams = new URLSearchParams(window.location.search);
-         if (urlParams.has('showBookingSuccessModal')) {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('showBookingSuccessModal')) {
             openBookingSuccessModal();
-         }
+        }
+
         function openBookingSuccessModal() {
             var modal = document.getElementById("bookingSuccessModal");
             modal.style.display = "block";
+            document.body.style.overflow = "hidden";
         }
+
         function closeBookingSuccessModal() {
             var modal = document.getElementById("bookingSuccessModal");
             modal.style.display = "none";
+            document.body.style.overflow = "auto";
         }
     </script>
 </body>

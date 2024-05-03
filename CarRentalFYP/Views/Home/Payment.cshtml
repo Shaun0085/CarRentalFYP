@@ -25,7 +25,7 @@
         var phoneNumber = getQueryParam('phoneNumber');
 
         var options = {
-            "name": "Acme Corp",
+            "name": "Everyday Transport",
             "description": "Buy Green Tea",
             "order_id": orderId,
             "image": "https://example.com/your_logo",
@@ -56,10 +56,7 @@
             ondismiss: function () {
                 var orderId = getQueryParam('orderId');
                 if (orderId) {
-                    // Redirect to the checkout page
                     window.location.href = '@Url.Action("Index", "Home")';
-
-                    // Call the DeleteFailedBooking controller to delete the booking details
                     var deleteBookingUrl = '@Url.Action("DeleteFailedBooking", "Home")' + '?orderId=' + orderId;
                     fetch(deleteBookingUrl, {
                         method: 'POST',
@@ -69,19 +66,14 @@
                     })
                         .then(response => {
                             if (!response.ok) {
-                                // Handle error
                                 console.error('Failed to delete booking:', response.statusText);
-                                // You can redirect to another page or display an error message
                             }
                         })
                         .catch(error => {
-                            // Handle network error
                             console.error('Network error:', error);
-                            // You can redirect to another page or display an error message
                         });
                 } else {
-                    // If orderId is not available, redirect to the checkout page without deleting the booking details
-                    window.location.href = '@Url.Action("Checkout", "Home")';
+                    window.location.href = '@Url.Action("Index", "Home")';
                 }
             },
             escape: true,

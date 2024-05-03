@@ -639,7 +639,12 @@ footer .links a {
 .question .answer {
     font-family: "Open Sans", sans-serif;
     font-weight: normal;
+    text-align: justify;
     color: #333333;
+}
+.question .tnc-title{
+    margin-top: 15px;
+    font-weight: bold;
 }
 .question:hover {
     background-color: #FFFFF0;
@@ -920,6 +925,7 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.4);
 }
 .modal-content {
+    font-family: "Open Sans", sans-serif;
     background-color: whitesmoke;
     margin: auto;
     padding: 20px;
