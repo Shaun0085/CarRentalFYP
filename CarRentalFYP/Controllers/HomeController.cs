@@ -28,12 +28,8 @@ namespace CarRentalFYP.Controllers
 
             if (!string.IsNullOrEmpty(orderId))
             {
-                // Trigger email sending based on the orderId
                 SendBookingConfirmationEmail(orderId);
             }
-
-            // You can use the showBookingSuccessModal parameter as needed
-
             return View(vehicles);
         }
 
@@ -112,15 +108,14 @@ namespace CarRentalFYP.Controllers
         [HttpPost]
         private async Task SendBookingConfirmationEmail(string orderId)
         {
-            // Retrieve booking details based on orderId
-            // Example:
             var booking = _context.Bookings.FirstOrDefault(b => b.OrderId == orderId);
-
-            // Extract booking details and send email
-            await SendEmailAsync(booking.Email, booking.CustomerName, booking.CustomerPhoneNumber,
-                booking.PickUpLocation, booking.PickUpDate, booking.PickUpTime,
-                booking.DropOffLocation, booking.DropOffDate, booking.DropOffTime,
-                booking.Amount, booking.PaymentType);
+            if (booking != null)
+            {
+                await SendEmailAsync(booking.Email, booking.CustomerName, booking.CustomerPhoneNumber,
+                    booking.PickUpLocation, booking.PickUpDate, booking.PickUpTime,
+                    booking.DropOffLocation, booking.DropOffDate, booking.DropOffTime,
+                    booking.Amount, booking.PaymentType);
+            }
         }
 
         [HttpPost]
@@ -463,15 +458,7 @@ namespace CarRentalFYP.Controllers
                 orderId = ViewBag.OrderId,
                 amount = ViewBag.Amount,
                 customerName = ViewBag.CustomerName,
-                email = ViewBag.Email,
-                phoneNumber = ViewBag.PhoneNumber,
-                pickUpLocation = ViewBag.PickUpLocation,
-                pickUpDate = ViewBag.PickUpDate,
-                pickUpTime = ViewBag.PickUpTime,
-                dropOffLocation = ViewBag.DropOffLocation,
-                dropOffDate = ViewBag.DropOffDate,
-                dropOffTime = ViewBag.DropOffTime,
-                paymentType = ViewBag.PaymentType
+                email = ViewBag.Email
             });
         }
         public IActionResult Payment()
@@ -487,7 +474,7 @@ namespace CarRentalFYP.Controllers
                 try
                 {
                     var bookingToDelete = _context.Bookings.Include(b => b.Billing)
-                                                           .FirstOrDefault(b => b.OrderId == orderId);
+                                        .FirstOrDefault(b => b.OrderId == orderId);
                     if (bookingToDelete != null)
                     {
                         if (bookingToDelete.Billing != null)
