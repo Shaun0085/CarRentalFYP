@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Razorpay.Api;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
 
 namespace CarRentalFYP.Controllers
 {
@@ -14,17 +17,27 @@ namespace CarRentalFYP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CarRentalDatabaseContext _context;
-
         public HomeController(ILogger<HomeController> logger, CarRentalDatabaseContext context)
         {
             _logger = logger;
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string orderId)
         {
             var vehicles = _context.Vehicles.Include(v => v.VehicleCategory).ToList();
+
+            if (!string.IsNullOrEmpty(orderId))
+            {
+                // Trigger email sending based on the orderId
+                SendBookingConfirmationEmail(orderId);
+            }
+
+            // You can use the showBookingSuccessModal parameter as needed
+
             return View(vehicles);
         }
+
+
         public class BookingViewModel
         {
             public Vehicle Vehicle { get; set; }
@@ -36,7 +49,6 @@ namespace CarRentalFYP.Controllers
             public string Name { get; set; }
             public int? Fee { get; set; }
         }
-
         public IActionResult Booking(int? vehicleId)
         {
             if (vehicleId != null)
@@ -51,11 +63,9 @@ namespace CarRentalFYP.Controllers
                 {
                     return NotFound();
                 }
-
                 var drivingRanges = _context.Locations
                     .Select(l => new LocationViewModel { LocationId = l.LocationId, Name = l.Name, Fee = l.Fee })
                     .ToList();
-
                 var viewModel = new BookingViewModel
                 {
                     Vehicle = vehicle,
@@ -64,12 +74,57 @@ namespace CarRentalFYP.Controllers
 
                 return View(viewModel);
             }
-
             return View();
         }
 
+        private async Task SendEmailAsync(string email, string customerName, string phoneNumber,
+            string pickUpLocation, DateTime? pickUpDate, TimeSpan? pickUpTime, string dropOffLocation,
+            DateTime? dropOffDate, TimeSpan? dropOffTime, int? amount, string paymentType)
+        {
+            var formattedPickUpDate = pickUpDate?.ToShortDateString();
+            var formattedDropOffDate = dropOffDate?.ToShortDateString();
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("everydaytransport@everydaytransportss.com", "Everyday Transport");
+            var to = new EmailAddress(email);
+            var templateId = "d-7dbf91def98f4c89b2a15ec19668a922";
+            var dynamicTemplateData = new
+            {
+                customer_name = customerName,
+                phone_number = phoneNumber,
+                pickup_location = pickUpLocation,
+                pickup_date = formattedPickUpDate,
+                pickup_time = pickUpTime,
+                dropoff_location = dropOffLocation,
+                dropoff_date = formattedDropOffDate,
+                dropoff_time = dropOffTime,
+                payment_amount = amount,
+                payment_type = paymentType
+            };
+            var msg = MailHelper.CreateSingleTemplateEmail(from, to, templateId, dynamicTemplateData);
+            var response = await client.SendEmailAsync(msg);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Email has been sent successfully");
+            }
+        }
+
         [HttpPost]
-        public IActionResult SaveBooking(Booking model, int drivingRange)
+        private async Task SendBookingConfirmationEmail(string orderId)
+        {
+            // Retrieve booking details based on orderId
+            // Example:
+            var booking = _context.Bookings.FirstOrDefault(b => b.OrderId == orderId);
+
+            // Extract booking details and send email
+            await SendEmailAsync(booking.Email, booking.CustomerName, booking.CustomerPhoneNumber,
+                booking.PickUpLocation, booking.PickUpDate, booking.PickUpTime,
+                booking.DropOffLocation, booking.DropOffDate, booking.DropOffTime,
+                booking.Amount, booking.PaymentType);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveBooking(Booking model, Billing billing, int drivingRange)
         {
             if (ModelState.IsValid)
             {
@@ -93,14 +148,34 @@ namespace CarRentalFYP.Controllers
                     BookingStatusId = 1,
                     Amount = model.Amount,
                     PaymentType = model.PaymentType
-
                 };
+                var newBilling = new Billing
+                {
+                    FirstName = billing.FirstName,
+                    LastName = billing.LastName,
+                    PhoneNumber = billing.PhoneNumber,
+                    Address = billing.Address,
+                    City = billing.City,
+                    PostCode = billing.PostCode,
+                    Country = billing.Country,
+                    State = billing.State
+                };
+                _context.Billings.Add(newBilling);
+                _context.SaveChanges();
+
+                booking.BillingId = newBilling.BillingId;
+
                 _context.Bookings.Add(booking);
                 _context.SaveChanges();
+
+                await SendEmailAsync(model.Email, model.CustomerName, model.CustomerPhoneNumber, model.PickUpLocation,
+                    model.PickUpDate, model.PickUpTime, model.DropOffLocation, model.DropOffDate, model.DropOffTime,
+                    model.Amount, model.PaymentType);
                 return RedirectToAction("Index", new { showBookingSuccessModal = true });
             }
             return View("Booking", model);
         }
+
         public IActionResult CarList(string category)
         {
             IQueryable<Vehicle> vehiclesQuery = _context.Vehicles
@@ -236,7 +311,7 @@ namespace CarRentalFYP.Controllers
             return View();
         }
 
-        public IActionResult InitiateOrder(Booking model, int DrivingRange)
+        public IActionResult InitiateOrder(Booking model, Billing billing, int DrivingRange)
         {
             var vehicleId = model.VehicleId;
             var customerName = model.CustomerName;
@@ -315,8 +390,6 @@ namespace CarRentalFYP.Controllers
             ViewBag.TotalPayment = totalPayment;
             ViewBag.PaymentType = paymentType;
 
-
-
             string key = "rzp_test_h74mk0wiZDO5OY";
             string secret = "D2LQFshr5q1UIGqa4vNEbUfG";
             RazorpayClient client = new RazorpayClient(key, secret);
@@ -360,6 +433,21 @@ namespace CarRentalFYP.Controllers
                         PaymentType = ViewBag.PaymentType,
                         OrderId = ViewBag.OrderId
                     };
+                    var newBilling = new Billing
+                    {
+                        FirstName = billing.FirstName,
+                        LastName = billing.LastName,
+                        PhoneNumber = billing.PhoneNumber,
+                        Address = billing.Address,
+                        City = billing.City,
+                        PostCode = billing.PostCode,
+                        Country = billing.Country,
+                        State = billing.State
+                    };
+                    _context.Billings.Add(newBilling);
+                    _context.SaveChanges();
+
+                    booking.BillingId = newBilling.BillingId;
 
                     _context.Bookings.Add(booking);
                     _context.SaveChanges();
@@ -373,9 +461,17 @@ namespace CarRentalFYP.Controllers
             return RedirectToAction("Payment", "Home", new
             {
                 orderId = ViewBag.OrderId,
+                amount = ViewBag.Amount,
                 customerName = ViewBag.CustomerName,
                 email = ViewBag.Email,
-                phoneNumber = ViewBag.PhoneNumber
+                phoneNumber = ViewBag.PhoneNumber,
+                pickUpLocation = ViewBag.PickUpLocation,
+                pickUpDate = ViewBag.PickUpDate,
+                pickUpTime = ViewBag.PickUpTime,
+                dropOffLocation = ViewBag.DropOffLocation,
+                dropOffDate = ViewBag.DropOffDate,
+                dropOffTime = ViewBag.DropOffTime,
+                paymentType = ViewBag.PaymentType
             });
         }
         public IActionResult Payment()
@@ -390,29 +486,30 @@ namespace CarRentalFYP.Controllers
             {
                 try
                 {
-                    var bookingToDelete = _context.Bookings.FirstOrDefault(b => b.OrderId == orderId);
+                    var bookingToDelete = _context.Bookings.Include(b => b.Billing)
+                                                           .FirstOrDefault(b => b.OrderId == orderId);
                     if (bookingToDelete != null)
                     {
+                        if (bookingToDelete.Billing != null)
+                        {
+                            _context.Billings.RemoveRange(bookingToDelete.Billing);
+                        }
                         _context.Bookings.Remove(bookingToDelete);
                         _context.SaveChanges();
-                        // Return a success status
                         return Ok();
                     }
                     else
                     {
-                        // Return a not found status
                         return NotFound("Booking with orderId " + orderId + " not found.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Return a server error status with the error message
                     return StatusCode(500, "An error occurred while deleting the booking: " + ex.Message);
                 }
             }
             else
             {
-                // Return a bad request status if the orderId is invalid
                 return BadRequest("Invalid orderId provided.");
             }
         }

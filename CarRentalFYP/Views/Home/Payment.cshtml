@@ -23,10 +23,18 @@
         var customerName = getQueryParam('customerName');
         var email = getQueryParam('email');
         var phoneNumber = getQueryParam('phoneNumber');
+        var pickUpLocation = getQueryParam('pickUpLocation');
+        var pickUpDate = getQueryParam('pickUpDate');
+        var pickUpTime = getQueryParam('pickUpTime');
+        var dropOffLocation = getQueryParam('dropOffLocation');
+        var dropOffDate = getQueryParam('dropOffDate');
+        var dropOffTime = getQueryParam('dropOffTime');
+        var paymentType = getQueryParam('paymentType');
+        var amount = getQueryParam('amount');
 
         var options = {
             "name": "Everyday Transport",
-            "description": "Buy Green Tea",
+            "description": "Car Rental",
             "order_id": orderId,
             "image": "https://example.com/your_logo",
             "prefill": {
@@ -49,7 +57,7 @@
             document.getElementById('razorpay_order_id').value = orderId;
             document.getElementById('razorpay_signature').value = response.razorpay_signature;
             document.razorpayForm.submit();
-            window.location.href = '@Url.Action("Index", "Home", new { showBookingSuccessModal = true })';
+            window.location.href = '/Home/Index?showBookingSuccessModal=true&orderId=' + orderId;
         };
 
         options.modal = {
@@ -79,9 +87,7 @@
             escape: true,
             backdropclose: false
         };
-
         var rzp = new Razorpay(options);
-
         window.onload = function () {
             rzp.open();
         };

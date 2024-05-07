@@ -1054,16 +1054,28 @@ button:hover {
     width: 100%; 
     align-items: center;
 }
+.car-image{
+    margin: 0 10px;
+}
+.mySlides {
+    display: none;
+}
+.booking-car-details-container .w3-content button {
+    width: 10px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 0px;
+    transition: all 0.3s ease-out;
+}
 .car-image img {
     width: 100%; 
     max-width: 600px; 
-    height: 280px; 
+    height: 300px; 
     margin: auto;
 }
 .car-spec {
     display: flex;
     max-width: 750px;
-    margin: 0 auto;
+    margin: 5px;
     padding: 20px;
     border: 5px solid #fede59;
     border-radius: 10px;
@@ -1232,12 +1244,28 @@ button:hover {
 .payment-details span{
     font-weight: bold;
 }
+.booking-details-right .billing-info {
+    margin-top: 20px;
+}
+.booking-details-right .payment-type{
+    margin-top: 15px;
+    margin-left: 5px
+}
+.booking-details-right .billing-info input {
+    color: #000;
+    width: 100%;
+    padding: 10px;
+    border: 5px solid #fede59;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+}
 .checkout-button {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
 }

@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
     <!--Hero Image-->
@@ -24,10 +25,28 @@
     <div class="booking-car-details-container">
         <div class="car-details">
             <div class="car-image">
-                @if (Model.Vehicle != null)
-                {
-                    <img src="@(Model.Vehicle != null ? "data:image;base64," + Convert.ToBase64String(Model.Vehicle.Image) : "placeholder.jpg")" alt="@Model.Vehicle?.Name ?? " Please select a vehicle"">
-                }
+                <div class="w3-content w3-display-container">
+                    @if (Model.Vehicle != null)
+                    {
+                        <img src="@(Model.Vehicle != null ? "data:image;base64," + Convert.ToBase64String(Model.Vehicle.Image) : "placeholder.jpg")" alt="@Model.Vehicle?.Name ?? " Please select a vehicle"" class="mySlides">
+                    }
+                    @if (Model.Vehicle != null && !string.IsNullOrEmpty(Model.Vehicle.ImageTwo))
+                    {
+                        <img src="@Model.Vehicle.ImageTwo" class="mySlides" alt="Image Two">
+                    }
+
+                    @if (Model.Vehicle != null && !string.IsNullOrEmpty(Model.Vehicle.ImageThree))
+                    {
+                        <img src="@Model.Vehicle.ImageThree" class="mySlides" alt="Image Three">
+                    }
+
+                    @if (Model.Vehicle != null && !string.IsNullOrEmpty(Model.Vehicle.ImageFour))
+                    {
+                        <img src="@Model.Vehicle.ImageFour" class="mySlides" alt="Image Four">
+                    }
+                  <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                  <button class="w3-button w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+                </div>
             </div>
             <div class="car-spec">
                 @if (Model.Vehicle != null)
@@ -190,6 +209,26 @@
             var formData = $("#bookingForm").serialize();
             // Redirect to the checkout page with the form data as query parameters
             window.location.href = "@Url.Action("Checkout", "Home")?" + formData;
+        }
+    </script>
+    <!-- Slideshow -->
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
         }
     </script>
 </body>
