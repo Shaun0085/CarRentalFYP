@@ -22,11 +22,11 @@ namespace CarRentalFYP.Controllers
             _logger = logger;
             _context = context;
         }
-        public IActionResult Index(string orderId)
+        public IActionResult Index(bool? showBookingSuccessModal,string orderId)
         {
             var vehicles = _context.Vehicles.Include(v => v.VehicleCategory).ToList();
 
-            if (!string.IsNullOrEmpty(orderId))
+            if (!string.IsNullOrEmpty(orderId) && (bool)(showBookingSuccessModal = true))
             {
                 SendBookingConfirmationEmail(orderId);
             }
@@ -458,7 +458,8 @@ namespace CarRentalFYP.Controllers
                 orderId = ViewBag.OrderId,
                 amount = ViewBag.Amount,
                 customerName = ViewBag.CustomerName,
-                email = ViewBag.Email
+                email = ViewBag.Email,
+                phoneNumber = ViewBag.PhoneNumber
             });
         }
         public IActionResult Payment()

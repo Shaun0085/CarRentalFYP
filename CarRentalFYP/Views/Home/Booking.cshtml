@@ -83,7 +83,8 @@
     <!-- booking Form -->
     <div class="booking-form">
         <h2>Reservation Details</h2>
-        <form action="@Url.Action("Checkout", "Home")" method="post" id="bookingForm">
+        @* <form action="@Url.Action("Checkout", "Home")" method="post" id="bookingForm"> *@
+        <form action="@Url.Action("Checkout", "Home")" method="post" id="bookingForm" onsubmit="return validateCustomerName()">
             <div class="booking-form-group">
                 <label for="vehicle">Vehicle:</label>
                 <input id="vehicleId" name="VehicleId" type="hidden" value="@Model.Vehicle?.VehicleId" required>
@@ -231,5 +232,18 @@
             x[slideIndex - 1].style.display = "block";
         }
     </script>
+    <script>
+        function validateCustomerName() {
+            var customerName = document.getElementById("customer-name").value;
+            // Check if customerName contains any numbers
+            if (/\d/.test(customerName)) {
+                alert("Please enter a valid customer name without numbers.");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission if validation passes
+        }
+    </script>
+
 </body>
 </html>
