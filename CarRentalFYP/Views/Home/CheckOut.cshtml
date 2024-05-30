@@ -150,7 +150,7 @@
                         <span>RM @ViewBag.TotalPayment</span>
                     </div>
                 </div>
-                <form id="paymentForm" method="post" onsubmit="return validateCustomerName()">
+                <form id="paymentForm" method="post" id="checkoutForm" onsubmit="return validateCustomerName()">
                     <div class="billing-info">
                         <h2>Billing Information</h2>
                         <label>First Name:</label>
@@ -199,7 +199,7 @@
                     <input type="hidden" name="PhoneHolder" value="@ViewBag.PhoneHolder">
                     <input type="hidden" name="UsbCable" value="@ViewBag.UsbCable">
                     <input type="hidden" name="Amount" value="@ViewBag.TotalPayment">
-                    <button type="button" class="checkout-button" onclick="submitForm()">Confirm Reservation</button>
+                    <button type="submit" class="checkout-button" @* onclick="submitForm()" *@>Confirm Reservation</button>
                 </form>
             </div>
         </div>
@@ -230,7 +230,7 @@
         }
     </script>
 
-    <script>
+@*  <script>
         function submitForm() {
             var paymentType = document.querySelector('input[name="PaymentType"]:checked').value;
             var formAction = "";
@@ -244,7 +244,7 @@
             document.getElementById('paymentForm').action = formAction;
             document.getElementById('paymentForm').submit();
         }
-    </script>
+    </script> *@
     <script>
         function validateCustomerName() {
             var firstName = document.getElementById("first-name").value;
@@ -260,7 +260,15 @@
                 alert("Please enter a valid last name without numbers.");
                 return false; // Prevent form submission
             }
-            return true; // Allow form submission if validation passes
+            var paymentType = document.querySelector('input[name="PaymentType"]:checked').value;
+            var formAction = "";
+            if (paymentType === "Online") {
+                formAction = "@Url.Action("InitiateOrder", "Home")";
+            } else if (paymentType === "BankTransfer" || paymentType === "InPerson") {
+                formAction = "@Url.Action("SaveBooking", "Home")";
+            }
+            document.getElementById('paymentForm').action = formAction;
+            document.getElementById('paymentForm').submit();
         }
     </script>
 </body>
