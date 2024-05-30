@@ -150,13 +150,13 @@
                         <span>RM @ViewBag.TotalPayment</span>
                     </div>
                 </div>
-                <form id="paymentForm" method="post">
+                <form id="paymentForm" method="post" onsubmit="return validateCustomerName()">
                     <div class="billing-info">
                         <h2>Billing Information</h2>
                         <label>First Name:</label>
-                        <input type="text" name="billing.FirstName" placeholder="First Name" required>
+                        <input type="text" name="billing.FirstName" id="first-name" placeholder=" First Name" required>
                         <label>Last Name:</label>
-                        <input type="text" name="billing.LastName" placeholder="Last Name" required>
+                        <input type="text" name="billing.LastName" id="last-name" placeholder="Last Name" required>
                         <label>Contact:</label>
                         <input type="tel" name="billing.PhoneNumber" placeholder="Phone Number">
                         <label>Address:</label>
@@ -243,6 +243,24 @@
 
             document.getElementById('paymentForm').action = formAction;
             document.getElementById('paymentForm').submit();
+        }
+    </script>
+    <script>
+        function validateCustomerName() {
+            var firstName = document.getElementById("first-name").value;
+            var lastName = document.getElementById("last-name").value;
+
+            // Check if firstName contains any numbers
+            if (/\d/.test(firstName)) {
+                alert("Please enter a valid first name without numbers.");
+                return false; // Prevent form submission
+            }
+            // Check if lastName contains any numbers
+            if (/\d/.test(lastName)) {
+                alert("Please enter a valid last name without numbers.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission if validation passes
         }
     </script>
 </body>
